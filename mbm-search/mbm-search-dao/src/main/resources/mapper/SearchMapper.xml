@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.cxf.mbm.search.dao.SearchMapper">
+
+
+    <update id="updateByCondition" parameterType="com.cxf.mbm.pojo.Item">
+        update item
+        <set>
+            <if test="title != null and title != ''">title = #{title},</if>
+            <if test="sellPoint != null and sellPoint != ''">sell_point = #{sellPoint},</if>
+            <if test="price != null">price = #{price},</if>
+            <if test="num != null">num = #{num},</if>
+            <if test="image != null and image != ''">image = #{image},</if>
+            <if test="code != null and code != ''">code = #{code},</if>
+            <if test="category != null and category.id != null">category_id = #{category.id},</if>
+            <if test="status != null and status != ''">status = #{status}</if>
+        </set>
+        where id = #{id}
+    </update>
+
+    <delete id="delItemById">
+        delete from item where id = #{id}
+    </delete>
+
+    <select id="selectAll" resultType="com.cxf.mbm.pojo.Item">
+        select * from item
+        where status = '正常'
+    </select>
+
+    <select id="getItemById" resultType="com.cxf.mbm.pojo.Item">
+        select *
+        from item
+        where id = #{id}
+    </select>
+
+</mapper>

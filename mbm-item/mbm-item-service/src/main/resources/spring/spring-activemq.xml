@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+    <!--配置连接工厂-->
+    <bean id="jmsFactory" class="org.apache.activemq.pool.PooledConnectionFactory" destroy-method="stop">
+        <property name="connectionFactory">
+            <bean class="org.apache.activemq.ActiveMQConnectionFactory">
+                <property name="brokerURL" value="tcp://localhost:61616"/>
+            </bean>
+        </property>
+    </bean>
+
+    <!--配置jmsTemplate-->
+    <bean id="jmsTemplate" class="org.springframework.jms.core.JmsTemplate">
+        <property name="connectionFactory" ref="jmsFactory"/>
+    </bean>
+
+    <!--这是一个队列，点对点-->
+    <bean id="queueDestination" class="org.apache.activemq.command.ActiveMQQueue">
+        <constructor-arg value="itemAddQueue"/>
+    </bean>
+
+    <bean id="topicDestination" class="org.apache.activemq.command.ActiveMQTopic">
+        <constructor-arg value="itemTopic"/>
+    </bean>
+
+
+    <!--这是一个主题-->
+    <!--<bean id="topicDestination" class="org.apache.activemq.command.ActiveMQTopic">-->
+        <!--<constructor-arg value="itemAddTopic"/>-->
+    <!--</bean>-->
+
+    <!--&lt;!&ndash;这是一个主题&ndash;&gt;-->
+    <!--<bean id="itemDel" class="org.apache.activemq.command.ActiveMQTopic">-->
+        <!--<constructor-arg value="itemDelTopic"/>-->
+    <!--</bean>-->
+
+</beans>

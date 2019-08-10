@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:dubbo="http://code.alibabatech.com/schema/dubbo"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd http://code.alibabatech.com/schema/dubbo http://code.alibabatech.com/schema/dubbo/dubbo.xsd">
+
+
+    <!--应用的名称-->
+    <dubbo:application name="mbm-item"/>
+
+    <!--注册中心-->
+    <dubbo:registry address="zookeeper://10.2.1.231:2181"/>
+    <!--<dubbo:registry address="zookeeper://localhost:2181"/>-->
+
+    <dubbo:metadata-report address="zookeeper://10.2.1.231:2181"/>
+    <!--<dubbo:metadata-report address="zookeeper://localhost:2181"/>-->
+
+    <!--配置dubbo的协议-->
+    <dubbo:protocol name="dubbo" port="28801"/>
+
+    <!--声明暴露的服务接口-->
+    <!--<dubbo:service interface="com.cxf.mbm.search.service.SearchService" ref="searchService" version="3.3.3.4"/>-->
+    <dubbo:service interface="com.cxf.mbm.search.service.SearchService" ref="searchService" version="3.3.3.3"/>
+
+</beans>

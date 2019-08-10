@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:dubbo="http://dubbo.apache.org/schema/dubbo"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd http://dubbo.apache.org/schema/dubbo http://dubbo.apache.org/schema/dubbo/dubbo.xsd">
+
+    <!--配置dubbo消费方-->
+    <!--配置应用名称-->
+    <dubbo:application name="mbm-manager"/>
+
+    <!--配置注册中心-->
+    <dubbo:registry address="zookeeper://10.2.1.231:2181"/>
+    <!--<dubbo:registry address="zookeeper://localhost:2181"/>-->
+
+    <!--配置远程服务器代理器-->
+    <dubbo:reference interface="com.cxf.mbm.service.ItemService" id="itemService" version="3.3.3.3"/>
+    <!--<dubbo:reference interface="com.cxf.mbm.search.service.SearchService" id="searchService" version="3.3.3.4"/>-->
+    <dubbo:reference interface="com.cxf.mbm.search.service.SearchService" id="searchService" version="3.3.3.3"/>
+
+
+
+</beans>

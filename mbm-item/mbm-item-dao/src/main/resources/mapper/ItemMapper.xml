@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.cxf.mbm.dao.ItemMapper">
+
+    <resultMap id="itemMap" type="com.cxf.mbm.pojo.Item">
+        <id property="id" column="id"/>
+        <result property="title" column="title"/>
+        <result property="sellPoint" column="sell_point"/>
+        <result property="price" column="price"/>
+        <result property="num" column="num"/>
+        <result property="image" column="image"/>
+        <result property="code" column="code"/>
+        <result property="status" column="status"/>
+        <result property="created" column="created"/>
+        <result property="updated" column="updated"/>
+        <association property="category" javaType="com.cxf.mbm.pojo.ItemCategory" columnPrefix="c_">
+            <id column="id" property="id"/>
+            <result column="name" property="name"/>
+        </association>
+
+    </resultMap>
+
+    <sql id="whereSQL">
+        <where>
+            <if test="title != null and title != ''">and title = #{title}</if>
+            <if test="sellPoint != null and sellPoint != ''">and sell_point = #{sellPoint}</if>
+            <if test="price != null">and price = #{price}</if>
+            <if test="num != null">and num = #{num}</if>
+            <if test="image != null and image != ''">and image = #{image}</if>
+            <if test="code != null and code != ''">and code = #{code}</if>
+            <if test="category.id != null and category.id != ''">and category_id = #{category.id}</if>
+            <if test="status != null and status != ''">and status = #{status}</if>
+        </where>
+    </sql>
+
+
+    <sql id="trimSQL">
+        <trim prefix="where" suffixOverrides=" and">
+            <if test="title != null and title != ''">title = #{title} and</if>
+            <if test="sellPoint != null and sellPoint != ''">sell_point = #{sellPoint} and</if>
+            <if test="price != null">price = #{price} and</if>
+            <if test="num != null">num = #{num} and</if>
+            <if test="image != null and image != ''">image = #{image} and</if>
+            <if test="code != null and code != ''">code = #{code} and</if>
+            <if test="category != null and category.id != null">category_id = #{category.id} and</if>
+            <if test="status != null and status != ''">status = #{status} and</if>
+        </trim>
+    </sql>
+
+
+
+    <insert id="insert" parameterType="com.cxf.mbm.pojo.Item" keyProperty="id" useGeneratedKeys="true">
+      insert into item (title,sell_point,price,num,image,code,category_id)
+      values (#{title},#{sellPoint},#{price},#{num},#{image},#{code},#{category.id});
+    </insert>
+
+    <update id="update" parameterType="com.cxf.mbm.pojo.Item">
+      update item
+      <set>
+          <if test="title != null and title != ''">title = #{title},</if>
+          <if test="sellPoint != null and sellPoint != ''">sell_point = #{sellPoint},</if>
+          <if test="price != null">price = #{price},</if>
+          <if test="num != null">num = #{num},</if>
+          <if test="image != null and image != ''">image = #{image},</if>
+          <if test="code != null and code != ''">code = #{code},</if>
+          <if test="category != null and category.id != null">category_id = #{category.id},</if>
+          <if test="status != null and status != ''">status = #{status}</if>
+      </set>
+      where id = #{id}
+    </update>
+
+    <delete id="delete">
+      delete from item
+      <include refid="whereSQL"/>
+    </delete>
+
+    <delete id="deleteById" parameterType="long">
+        delete from item where id = #{id}
+    </delete>
+
+    <select id="selectById" parameterType="long" resultMap="itemMap">
+        select * from item where id = #{id}
+    </select>
+
+    <select id="selectByParam" resultMap="itemMap" parameterType="com.cxf.mbm.pojo.Item">
+        select * from item
+        <include refid="trimSQL"/>
+    </select>
+
+    <select id="selectAll" resultType="com.cxf.mbm.pojo.Item">
+        select * from item
+    </select>
+</mapper>

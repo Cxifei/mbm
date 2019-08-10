@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.cxf.mbm.dao.ItemCategoryMapper">
+
+    <resultMap id="categoryMap" type="com.cxf.mbm.pojo.ItemCategory">
+
+        <id property="id" column="id"/>
+        <result property="name" column="name"/>
+        <result property="parentId" column="parent_id"/>
+        <result property="sortOrder" column="sort_order"/>
+        <result property="status" column="status"/>
+        <result property="created" column="created"/>
+        <result property="updated" column="updated"/>
+
+    </resultMap>
+
+    <resultMap id="categoryParentMap" extends="categoryMap" type="com.cxf.mbm.pojo.ItemCategory">
+        <association property="category" javaType="com.cxf.mbm.pojo.ItemCategory" resultMap="categoryMap" columnPrefix="p_"/>
+    </resultMap>
+
+
+    <insert id="insert" parameterType="com.cxf.mbm.pojo.ItemCategory" useGeneratedKeys="true" keyProperty="id">
+        insert into item_category (parent_id,name,sort_order,is_parent)
+        values (#{parentId},#{name},#{sortOrder},#{isParent})
+    </insert>
+
+    <select id="selectAll" resultMap="categoryMap">
+        select * from mbm.item_category
+    </select>
+</mapper>
